@@ -1,3 +1,5 @@
+# TODO: Format hours, minutes, seconds, and milliseconds
+
 from pynput.mouse import Button, Controller
 import keyboard
 import random
@@ -12,10 +14,9 @@ delta = 0
 eat = 1440
 
 
-def click_and_wait(seconds):
+def click():
     mouse.press(Button.left)
     mouse.release(Button.left)
-    time.sleep(seconds)
 
 
 def consume():
@@ -50,14 +51,21 @@ def ask_eat_timer():
 
 def autoclicker_core(seconds, diff, eat_timer):
     total_time_passed = 0
+    click()
     while not keyboard.is_pressed(EXIT_KEY):
         if total_time_passed >= eat_timer * 60:
             print("\nEating...\n")
             consume()
             total_time_passed = 0
         wait = round(random.uniform(seconds - diff, seconds + diff), 3)
-        click_and_wait(wait)
-        print(f"Interval: {wait}s")
+        f_part = wait % 1
+        time.sleep(f_part)
+        for step in range(int(wait), 0, -1):
+            print(f"Clicking in {int(step)}s          ", end="\r")
+            time.sleep(1)
+        click()
+        print(f"Interval: {wait}s          ", end="\r")
+        print()
         total_time_passed += wait
 
 
