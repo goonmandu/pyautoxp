@@ -57,7 +57,7 @@ def autoclicker_core(seconds, diff, eat_timer):
             total_time_passed = 0
         wait = round(random.uniform(seconds - diff, seconds + diff), 3)
         click_and_wait(wait)
-        print(f"Interval: {wait}")
+        print(f"Interval: {wait}s")
         total_time_passed += wait
 
 
